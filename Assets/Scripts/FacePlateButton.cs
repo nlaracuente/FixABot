@@ -10,6 +10,7 @@ public class FacePlateButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     Animator animator;
     FacePlate facePlate;
+    ExpressionCableController expressionCableController;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class FacePlateButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private void Start()
     {
         facePlate = FindObjectOfType<FacePlate>();
+        expressionCableController = FindObjectOfType<ExpressionCableController>();
     }
 
     private void Update()
@@ -29,6 +31,7 @@ public class FacePlateButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerClick(PointerEventData eventData)
     {
         facePlate.ToggleFacePlateState();
+        expressionCableController.ResetCable();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -40,7 +43,4 @@ public class FacePlateButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         isMouseOver = false;
     }
-
-    
-
 }

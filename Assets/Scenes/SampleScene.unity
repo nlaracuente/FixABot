@@ -816,8 +816,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 592549073}
+  - component: {fileID: 592549074}
   m_Layer: 0
-  m_Name: FaceCablePlugs
+  m_Name: ExpressionCableController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -840,6 +841,18 @@ Transform:
   m_Father: {fileID: 1851002200}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &592549074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592549072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1477c438ce9c19645914d27490dddcae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &597512159
 GameObject:
   m_ObjectHideFlags: 0
@@ -3864,6 +3877,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 592549073}
     m_Modifications:
+    - target: {fileID: 3296506633130709572, guid: 489984ec334cb6c498aeb3404b814a28,
+        type: 3}
+      propertyPath: m_Positions.Array.data[1].x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3296506633130709572, guid: 489984ec334cb6c498aeb3404b814a28,
+        type: 3}
+      propertyPath: m_Positions.Array.data[1].y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 3296506633130709573, guid: 489984ec334cb6c498aeb3404b814a28,
         type: 3}
       propertyPath: m_LocalPosition.x

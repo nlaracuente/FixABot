@@ -61,6 +61,7 @@ public class FacePlate : MonoBehaviour
 
     private void ChooseRandomBrokenExpressions()
     {
+        expressions.ForEach(e => e.SetActive(false));
         brokenExpression.Clear();
 
         var min = 1;
@@ -79,6 +80,8 @@ public class FacePlate : MonoBehaviour
 
             brokenExpression.Add(exp);
         }
+
+        SetExpressionState(true);
     }
 
     public void ToggleFacePlateState()
@@ -110,7 +113,6 @@ public class FacePlate : MonoBehaviour
 
     public void FixCurrentExpression()
     {
-        // Turn off the broken one first before fixing it
         if (brokenExpression.Contains(CurrentExpression))
         {
             SetExpressionState(false);
@@ -122,6 +124,14 @@ public class FacePlate : MonoBehaviour
         // Unregister if everything is fixed
         if (brokenExpression.Count < 1)
             fixButton.UnregisterEvent(FixCurrentExpression);
+    }
+
+    public void FixExpression(Expression expression)
+    {
+        SetExpressionState(false);
+        curExpressionIndex = (int)expression;
+        FixCurrentExpression();
+        
     }
 
     public bool IsExpressionBroken(Expression expression)
