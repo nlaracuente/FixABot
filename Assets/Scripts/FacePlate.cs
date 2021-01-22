@@ -1,9 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class FacePlate : MonoBehaviour
 {
+    public enum Expression
+    {
+        None,
+        Happy,
+        Sad,
+        Angry,
+    }
+
     [SerializeField]
     bool isOpened;
 
@@ -14,18 +23,33 @@ public class FacePlate : MonoBehaviour
     List<GameObject> expressions = new List<GameObject>();
 
     [SerializeField]
-    List<GameObject> brokenExpressions = new List<GameObject>();
+    List<GameObject> brokenExpressionsPrefabs = new List<GameObject>();
+
+    [SerializeField]
+    FixButton fixButton;
 
     /// <summary>
     /// Store random "broken expressions"
     /// </summary>
-    List<int> brokenExpressionIndexes = new List<int>();
+    List<Expression> brokenExpression = new List<Expression>();
+    public List<Expression> BrokenExpressions { get { return brokenExpression; } }
     
     Animator animator;
+
+    Expression CurrentExpression { get { return (Expression)curExpressionIndex; } }
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
         ChooseRandomBrokenExpressions();
+    }
+
+    private void Start()
+    {
+        if (fixButton == null)
+            fixButton = GetComponentInChildren<FixButton>();
+
+        fixButton.RegisterEvent(FixCurrentExpression);
     }
 
     private void Update()
@@ -37,21 +61,23 @@ public class FacePlate : MonoBehaviour
 
     private void ChooseRandomBrokenExpressions()
     {
-        brokenExpressionIndexes.Clear();
+        brokenExpression.Clear();
 
         var min = 1;
-        var max = brokenExpressions.Count;
+        var max = brokenExpressionsPrefabs.Count;
 
-        for (int i = 0; i < Random.Range(0, max); i++)
+        for (int i = 0; i < UnityEngine.Random.Range(0, max); i++)
         {
-            int randIndex = 0;
+            int rIdx;
+            Expression exp;
 
             do
             {
-                randIndex = Random.Range(min, max);
-            } while (brokenExpressionIndexes.Contains(randIndex));
+                rIdx = UnityEngine.Random.Range(min, max);
+                exp = (Expression)rIdx;
+            } while (brokenExpression.Contains(exp));
 
-            brokenExpressionIndexes.Add(randIndex);
+            brokenExpression.Add(exp);
         }
     }
 
@@ -76,9 +102,30 @@ public class FacePlate : MonoBehaviour
 
     private void SetExpressionState(bool newState)
     {
-        if (brokenExpressionIndexes.Contains(curExpressionIndex))
-            brokenExpressions[curExpressionIndex].SetActive(newState);
+        if (brokenExpression.Contains(CurrentExpression))
+            brokenExpressionsPrefabs[curExpressionIndex].SetActive(newState);
         else
             expressions[curExpressionIndex].SetActive(newState);
+    }
+
+    public void FixCurrentExpression()
+    {
+        // Turn off the broken one first before fixing it
+        if (brokenExpression.Contains(CurrentExpression))
+        {
+            SetExpressionState(false);
+            brokenExpression.Remove(CurrentExpression);
+        }
+
+        SetExpressionState(true);
+
+        // Unregister if everything is fixed
+        if (brokenExpression.Count < 1)
+            fixButton.UnregisterEvent(FixCurrentExpression);
+    }
+
+    public bool IsExpressionBroken(Expression expression)
+    {
+        return brokenExpression.Contains(expression);
     }
 }
