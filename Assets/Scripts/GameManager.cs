@@ -22,6 +22,20 @@ public class GameManager : MonoBehaviour
     int currentDay = 1;
     [SerializeField] int totalDays = 3;
 
+    [System.Serializable]
+    struct MinMax
+    {
+        public int min;
+        public int max;
+    }
+
+    [SerializeField]
+    List<MinMax> minMaxBrokenPartsPerDay;
+
+    [SerializeField]
+    Robot robotPrefab;
+    Robot currentRobot;
+
     bool repaired;
 
     private void Start()
@@ -90,16 +104,27 @@ public class GameManager : MonoBehaviour
         var totalRobots = currentDay;
         var curRobot = 1;
 
+        var limits = minMaxBrokenPartsPerDay[currentDay];
         while (curRobot <= totalRobots)
         {
             weekMenuController.SetRobotText(curRobot, totalRobots);
-            
-            // Spawn the robot with the desired specs
+            var totalBrokenParts = RGN.Between(limits.min, limits.max);
+
+            // Spawn Robot Prefab
+            // Configure to allow no more than totalBrokenParts
+            // Play Animation to show the new robot
+            // Wait for animation to finish playing
+            currentRobot = Instantiate(robotPrefab).GetComponent<Robot>();
+            currentRobot.name = $"Robot_{currentDay}_{curRobot}";
+            currentRobot.Initialize(totalBrokenParts);            
+
             yield return StartCoroutine(RepairRoutine());
-            // Submit robot for calidation
+            
+            // Validate repair job
             curRobot++;
         }
     }
+
 
     public void Repaired() => repaired = true;
     IEnumerator RepairRoutine()
@@ -109,6 +134,10 @@ public class GameManager : MonoBehaviour
         repairMenu.SetActive(true);
         while (!repaired)
             yield return null;
+
+        // Destroy for now
+        DestroyImmediate(currentRobot.gameObject);
+        yield return new WaitForEndOfFrame();
 
         repairMenu.SetActive(false);
     }
