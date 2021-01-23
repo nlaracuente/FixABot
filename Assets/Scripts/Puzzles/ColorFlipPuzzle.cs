@@ -5,6 +5,11 @@ using UnityEngine.EventSystems;
 
 public class ColorFlipPuzzle : Puzzle
 {
+    public override void BuildPuzzle()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void OnPointerClick(PointerEventData eventData)
     {
         throw new System.NotImplementedException();

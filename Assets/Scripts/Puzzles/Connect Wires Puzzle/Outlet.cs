@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomNumbers : MonoBehaviour
+public class Outlet : MonoBehaviour
 {
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.G))
-            Debug.Log("Rand 0-20: " + RGN.Between(1, 3));
+        
     }
 }

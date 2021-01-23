@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     [SerializeField]
-    GameObject tileMenu;
+    GameObject titleMenu;
 
     [SerializeField]
     GameObject howToPlayMenu;
@@ -36,20 +37,53 @@ public class GameManager : MonoBehaviour
     Robot robotPrefab;
     Robot currentRobot;
 
+    [System.Serializable]
+    public struct PuzzleConfig
+    {
+        public ColorName colorName;
+        public Color color;
+    }
+    [SerializeField]
+    List<PuzzleConfig> puzzleConfigs;
+    Dictionary<ColorName, Color> colorNameMapping;
+    public Dictionary<ColorName, Color> ColorNameMapping 
+    {
+        get {
+            if (colorNameMapping == null || colorNameMapping.Count() < 1)
+                BuildColorNameMapping();
+
+            return colorNameMapping;
+        }
+    }
+
     bool repaired;
 
     private void Start()
     {
+        BuildColorNameMapping();
         ResetMenus();
+    }
+
+    private void BuildColorNameMapping()
+    {
+        colorNameMapping = new Dictionary<ColorName, Color>();
+        foreach (var config in puzzleConfigs)
+        {
+            if (!colorNameMapping.ContainsKey(config.colorName))
+                colorNameMapping.Add(config.colorName, config.color);
+        }
     }
 
     void ResetMenus()
     {
-        tileMenu.SetActive(true);
-        howToPlayMenu.SetActive(false);
-        weekMenuController.gameObject.SetActive(false);
-        repairMenu.SetActive(false);
-        resultsMenu.SetActive(false);
+        if (titleMenu == null)
+            return;
+
+        titleMenu?.SetActive(true);
+        howToPlayMenu?.SetActive(false);
+        weekMenuController?.gameObject.SetActive(false);
+        repairMenu?.SetActive(false);
+        resultsMenu?.SetActive(false);
     }
 
     public void StartGame()
@@ -68,7 +102,7 @@ public class GameManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator GameRoutine()
     {
-        tileMenu.SetActive(false);
+        titleMenu.SetActive(false);
         yield return StartCoroutine(HowToPlayRoutine());
         yield return StartCoroutine(WeekRoutine());
         resultsMenu.SetActive(true);
@@ -125,7 +159,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     public void Repaired() => repaired = true;
     IEnumerator RepairRoutine()
     {
@@ -142,3 +175,4 @@ public class GameManager : MonoBehaviour
         repairMenu.SetActive(false);
     }
 }
+

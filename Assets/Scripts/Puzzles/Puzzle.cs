@@ -10,6 +10,13 @@ using UnityEngine.EventSystems;
 public abstract class Puzzle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public bool IsSolved { get; protected set; }
+
+    private void Start()
+    {
+        BuildPuzzle();
+    }
+
+    public abstract void BuildPuzzle();
     public abstract void OnPointerClick(PointerEventData eventData);
     public abstract void OnPointerEnter(PointerEventData eventData);
     public abstract void OnPointerExit(PointerEventData eventData);

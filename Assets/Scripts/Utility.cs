@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
+using System.Linq;
 
 public static class Utility
 {
@@ -19,5 +18,10 @@ public static class Utility
         }
 
         return array;
+    }
+
+    public static T[] GetEnumValues<T>() where T : Enum
+    {
+        return Enum.GetValues(typeof(T)).Cast<T>().ToArray();
     }
 }
