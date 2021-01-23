@@ -33,12 +33,16 @@ public class FaceCablePlug : MonoBehaviour
         }
     }
 
+    CameraController cameraController;
+
+
     private void Awake()
     {
         if (lineRenderer == null)
             lineRenderer = GetComponent<LineRenderer>();
 
         facePlate = FindObjectOfType<FacePlate>();
+        cameraController = FindObjectOfType<CameraController>();
     }
 
     private void Start()
@@ -74,7 +78,7 @@ public class FaceCablePlug : MonoBehaviour
 
     public void FollowMouse()
     {
-        var endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var endPos = cameraController.MainCamera.ScreenToWorldPoint(Input.mousePosition);
         endPos.z = startPosition.position.z;
 
         var pos = new Vector3[] { startPosition.position, endPos };
