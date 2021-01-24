@@ -3570,7 +3570,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1713384318}
   - component: {fileID: 1713384317}
-  - component: {fileID: 1713384316}
   m_Layer: 0
   m_Name: LevelCamera
   m_TagString: Untagged
@@ -3578,14 +3577,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1713384316
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1713384315}
-  m_Enabled: 1
 --- !u!20 &1713384317
 Camera:
   m_ObjectHideFlags: 0
@@ -3855,7 +3846,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1856792241
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4109,6 +4100,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 174905365878319198, guid: 372a36382d3665c448908a2e8e162acf,
+        type: 3}
+      propertyPath: orthographic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 174905365878319199, guid: 372a36382d3665c448908a2e8e162acf,
         type: 3}

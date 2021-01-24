@@ -54,9 +54,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breakableParts:
   - {fileID: 1629443273540056176}
+  - {fileID: 6032387103258363563}
   - {fileID: 4698191646985971855}
   - {fileID: 8374976001762156394}
-  - {fileID: 6032387103258363563}
 --- !u!1001 &338782511334034198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137,13 +137,19 @@ PrefabInstance:
     - target: {fileID: 8109431153978135676, guid: 9101600d641cb9f44ac6890f5da61d64,
         type: 3}
       propertyPath: puzzles.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8109431153978135676, guid: 9101600d641cb9f44ac6890f5da61d64,
         type: 3}
       propertyPath: puzzles.Array.data[0]
       value: 
       objectReference: {fileID: 5640608047915785758, guid: 64e2b2689fa0f8f4c855a2cd67e54d03,
+        type: 3}
+    - target: {fileID: 8109431153978135676, guid: 9101600d641cb9f44ac6890f5da61d64,
+        type: 3}
+      propertyPath: puzzles.Array.data[1]
+      value: 
+      objectReference: {fileID: 3872169106195611871, guid: 6ea5075871b5c4c4fa7068058e371340,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9101600d641cb9f44ac6890f5da61d64, type: 3}
@@ -837,6 +843,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 1329659959802016917, guid: 7786b6de5e5fc564384010efcae2f593,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2289004042026506351, guid: 7786b6de5e5fc564384010efcae2f593,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -927,22 +938,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Battery
       objectReference: {fileID: 0}
-    - target: {fileID: 1978001638915578982, guid: ec56724d70c4d0d449f8523cd396abce,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 2053192616739409675, guid: ec56724d70c4d0d449f8523cd396abce,
-        type: 3}
-      propertyPath: puzzles.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2053192616739409675, guid: ec56724d70c4d0d449f8523cd396abce,
-        type: 3}
-      propertyPath: puzzles.Array.data[0]
-      value: 
-      objectReference: {fileID: 7450813654564007709, guid: 6e505908e79d5da49aa55ceb77a15c56,
-        type: 3}
     - target: {fileID: 8971341105861521709, guid: ec56724d70c4d0d449f8523cd396abce,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1038,13 +1033,19 @@ PrefabInstance:
     - target: {fileID: 8977010737683309967, guid: d8897675027d288469233044cf55094b,
         type: 3}
       propertyPath: puzzles.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8977010737683309967, guid: d8897675027d288469233044cf55094b,
         type: 3}
       propertyPath: puzzles.Array.data[0]
       value: 
       objectReference: {fileID: 2021793873809958512, guid: 13db7bd5f492a1e4baa9e6928e39b80a,
+        type: 3}
+    - target: {fileID: 8977010737683309967, guid: d8897675027d288469233044cf55094b,
+        type: 3}
+      propertyPath: puzzles.Array.data[1]
+      value: 
+      objectReference: {fileID: 5994344843293059079, guid: 07b4e20787761044d84a6a038de9b585,
         type: 3}
     - target: {fileID: 9078811065739882073, guid: d8897675027d288469233044cf55094b,
         type: 3}
@@ -1128,6 +1129,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5530334318130607207}
     m_Modifications:
+    - target: {fileID: 3461223051595332601, guid: ce1675da7fe8e38469394afd61ddb9f9,
+        type: 3}
+      propertyPath: puzzles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3461223051595332601, guid: ce1675da7fe8e38469394afd61ddb9f9,
+        type: 3}
+      propertyPath: puzzles.Array.data[1]
+      value: 
+      objectReference: {fileID: 7472018824959736557, guid: ec2ed64d4ac178e4fab788e54128c28a,
+        type: 3}
     - target: {fileID: 5778745299101775287, guid: ce1675da7fe8e38469394afd61ddb9f9,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1580215236489591666}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WirePoint 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5807505579995464260}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WirePoint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 4354841971243619010}
   - component: {fileID: 465281870793567445}
   - component: {fileID: 3571211469303189712}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ConnectorPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}

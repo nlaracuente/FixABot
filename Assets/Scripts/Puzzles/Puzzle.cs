@@ -9,15 +9,14 @@ using UnityEngine.EventSystems;
 /// </summary>
 public abstract class Puzzle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    [SerializeField]
-    GameObject puzzleHolder;
-
+    protected bool isBuilt;
     public virtual bool IsSolved { get; }
 
     private void Start()
     {
         BuildPuzzle();
         HidePuzzle();
+        isBuilt = true;
     }
 
     private void Update()

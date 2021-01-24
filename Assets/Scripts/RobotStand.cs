@@ -12,6 +12,11 @@ public class RobotStand : MonoBehaviour
 
     bool isRotating;
 
+    public void ResetRotation()
+    {
+        transform.rotation = Quaternion.identity;
+    }
+
     public void Rotate(int dir)
     {
         dir = Mathf.Clamp(dir, -1, 1);

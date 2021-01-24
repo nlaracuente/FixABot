@@ -109,6 +109,13 @@ public class GameManager : Singleton<GameManager>
         resultsMenu?.gameObject.SetActive(false);
     }
 
+    public ColorName[] GetShuffledColorNames()
+    {
+        var colorNames = Utility.GetEnumValues<ColorName>();
+        var shuffledColors = Utility.ShuffleArray(colorNames, RandomNumbers.Seed);
+        return shuffledColors;
+    }
+
     public void StartGame()
     {
         ResetMenus();
@@ -173,10 +180,8 @@ public class GameManager : Singleton<GameManager>
             weekMenuController.SetRobotText(curRobot, totalRobots);
             var totalBrokenParts = RGN.Between(limits.min, limits.max);
 
-            // Spawn Robot Prefab
-            // Configure to allow no more than totalBrokenParts
-            // Play Animation to show the new robot
-            // Wait for animation to finish playing
+            // Build Robot
+            robotStand.ResetRotation();
             currentRobot = Instantiate(robotPrefab, robotStand.transform).GetComponent<Robot>();
             currentRobot.name = $"Robot_{currentDay}_{curRobot}";
             currentRobot.Initialize(totalBrokenParts);            
