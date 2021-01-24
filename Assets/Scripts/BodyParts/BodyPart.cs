@@ -35,6 +35,16 @@ public abstract class BodyPart : MonoBehaviour, IPointerEnterHandler, IPointerEx
         puzzle = go.GetComponent<Puzzle>();
     }
 
+    public void ShowPuzzle()
+    {
+        puzzle?.ShowPuzzle();
+    }
+
+    public void HidePuzzle()
+    {
+        puzzle?.HidePuzzle();
+    }
+
     public virtual void OnPointerClick(PointerEventData eventData) { }
 
     public virtual void OnPointerEnter(PointerEventData eventData) { }

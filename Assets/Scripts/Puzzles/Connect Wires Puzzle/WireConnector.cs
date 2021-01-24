@@ -64,10 +64,20 @@ public class WireConnector : MonoBehaviour
 
     MaterialPropertyBlock propBlock;
 
-    private void LateUpdate()
+    /// <summary>
+    /// Always ensures the lines are rendering based on the puzzles' current position and rotation
+    /// However, we want to not override the "FollowMouse" effect which is why the FollowMouse
+    /// should be called during the "Late Update" to override these changes
+    /// </summary>
+    private void Update()
     {
         if (ConnectorType == Type.Outlet)
             return;
+
+        if (isPlugged)
+            PlugIn();
+        else
+            Disconnect();
     }
 
     public void Build(ColorName colorName)
@@ -124,8 +134,11 @@ public class WireConnector : MonoBehaviour
         Wire.SetPositions(positions.Select(p => p.position).ToArray());
     }
 
+    /// <summary>
+    /// Shows the starting connection only so that players can know where to click
+    /// </summary>
     public void Disconnect()
     {
-        Wire.Clear();
+        Wire.SetPositions(WirePositions.Select(p => p.position).ToArray());
     }
 }

@@ -45,6 +45,9 @@ public class BodyPartCover : MonoBehaviour, IPointerClickHandler
 
         if (fixedCover.activeSelf)
             collider.enabled = false;
+
+        if(bodyPart.IsFixed)
+            bodyPart.HidePuzzle();
     }
 
     /// <summary>
@@ -56,5 +59,6 @@ public class BodyPartCover : MonoBehaviour, IPointerClickHandler
         isFixing = true;
         collider.enabled = false;
         brokenCover?.SetActive(false);
+        bodyPart.ShowPuzzle();
     }
 }

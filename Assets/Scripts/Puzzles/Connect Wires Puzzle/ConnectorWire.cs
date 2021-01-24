@@ -15,7 +15,7 @@ public class ConnectorWire : MonoBehaviour
                 lineRenderer = GetComponent<LineRenderer>();
                 lineRenderer.positionCount = 0;
             }
-                
+
             return lineRenderer;
         }
     }

@@ -10,12 +10,12 @@ PrefabInstance:
     - target: {fileID: 2448505015082740397, guid: bc71efffaa4d222488fd69e67ecb6f05,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2448505015082740397, guid: bc71efffaa4d222488fd69e67ecb6f05,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.095
       objectReference: {fileID: 0}
     - target: {fileID: 2448505015082740397, guid: bc71efffaa4d222488fd69e67ecb6f05,
         type: 3}
@@ -30,7 +30,7 @@ PrefabInstance:
     - target: {fileID: 2448505015082740397, guid: bc71efffaa4d222488fd69e67ecb6f05,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2448505015082740397, guid: bc71efffaa4d222488fd69e67ecb6f05,
         type: 3}
@@ -40,7 +40,7 @@ PrefabInstance:
     - target: {fileID: 2448505015082740397, guid: bc71efffaa4d222488fd69e67ecb6f05,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2448505015082740397, guid: bc71efffaa4d222488fd69e67ecb6f05,
         type: 3}
@@ -55,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 2448505015082740397, guid: bc71efffaa4d222488fd69e67ecb6f05,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 2448505015082740397, guid: bc71efffaa4d222488fd69e67ecb6f05,
         type: 3}
@@ -65,7 +65,18 @@ PrefabInstance:
     - target: {fileID: 2975143581382191505, guid: bc71efffaa4d222488fd69e67ecb6f05,
         type: 3}
       propertyPath: m_Name
-      value: LeftEar Variant
+      value: LeftEar
       objectReference: {fileID: 0}
+    - target: {fileID: 4737875231842247907, guid: bc71efffaa4d222488fd69e67ecb6f05,
+        type: 3}
+      propertyPath: puzzles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737875231842247907, guid: bc71efffaa4d222488fd69e67ecb6f05,
+        type: 3}
+      propertyPath: puzzles.Array.data[0]
+      value: 
+      objectReference: {fileID: 4755992933878893944, guid: 96c0839a632110747aadb90fc12bfa50,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc71efffaa4d222488fd69e67ecb6f05, type: 3}

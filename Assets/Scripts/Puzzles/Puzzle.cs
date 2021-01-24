@@ -9,11 +9,31 @@ using UnityEngine.EventSystems;
 /// </summary>
 public abstract class Puzzle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    [SerializeField]
+    GameObject puzzleHolder;
+
     public virtual bool IsSolved { get; }
 
     private void Start()
     {
         BuildPuzzle();
+        HidePuzzle();
+    }
+
+    private void Update()
+    {
+        if (IsSolved)
+            HidePuzzle();
+    }
+
+    public void HidePuzzle()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void ShowPuzzle()
+    {
+        gameObject.SetActive(true);
     }
 
     public abstract void BuildPuzzle();
