@@ -7,23 +7,18 @@ using UnityEngine.EventSystems;
 public class ConnectWiresPuzzle : Puzzle
 {
     [SerializeField]
-    WireConnector connectorPrefab;
-
-    [SerializeField]
     ConnectorWire wirePrefab;
 
     [SerializeField]
-    Transform[] plugsXForms;
+    WireConnector[] plugs;
 
     [SerializeField]
-    Transform[] outletsXForms;
-
-    GameObject connectorsParent;
+    WireConnector[] outlets;
 
     /// <summary>
     /// All the plugs available in the puzzle
     /// </summary>
-    List<WireConnector> plugs = new List<WireConnector>();
+    // List<WireConnector> plugs = new List<WireConnector>();
 
     /// <summary>
     /// Plug currently selected to connect to an outlet
@@ -54,85 +49,61 @@ public class ConnectWiresPuzzle : Puzzle
 
     public override void BuildPuzzle() 
     {
-        if (outletsXForms == null || plugsXForms.Length < 1)
+        if (plugs == null || plugs.Length < 1)
         {
             Debug.Log($"{name}: Plugs have not been assigned");
             return;
         }
 
-        if (outletsXForms == null || outletsXForms.Length < 1)
+        if (outlets == null || outlets.Length < 1)
         {
             Debug.Log($"{name}: Outlets have not been assigned");
             return;
         }
 
-        if (outletsXForms.Length != outletsXForms.Length)
+        if (plugs.Length != outlets.Length)
         {
             Debug.Log($"{name}: Plug and Outlet count does not match");
             return;
         }
 
-        InitializeConnectorGO();
-        plugs.Clear();
 
         // Decide how many will be unplugged - minum is 1
-        var maxPlugs = plugsXForms.Length;
-        var totalUnplugged = RandomNumbers.instance.Between(1, outletsXForms.Length);
+        var maxPlugs = plugs.Length;
+        var totalUnplugged = RandomNumbers.instance.Between(1, plugs.Length);
 
         // Choose random colors
         var colorNames = Utility.GetEnumValues<ColorName>();
         var shuffledColors = Utility.ShuffleArray(colorNames, RandomNumbers.Seed);
         var plugColors = shuffledColors.Take(maxPlugs).ToArray();
 
-        // Create all the plugs and outlets positioning them at random starting positions
+        // Updates the plugs with their color/state and pair it with an outlet
         // And assigning the destination outlet to the plugs so that it knows how to auto-connect
         // All are defaulted as connected
-        var plugPositions = Utility.ShuffleArray(plugsXForms.Select(p => p.transform).ToArray(), RandomNumbers.Seed);
-        var outletPositions = Utility.ShuffleArray(outletsXForms.Select(o => o.transform).ToArray(), RandomNumbers.Seed);
+        var shuffledPlugs = Utility.ShuffleArray(plugs, RandomNumbers.Seed);
+        var shuffledOutlets = Utility.ShuffleArray(outlets, RandomNumbers.Seed);
+
         for (int i = 0; i < plugColors.Count(); i++)
         {
             var colorName = plugColors[i];
-            var gm = GameManager.instance;
-            var color = gm.ColorNameMapping[colorName];
+            var color = GameManager.instance.ColorNameMapping[colorName];
 
-            var plug = InstantiateConnector(WireConnector.Type.Plug, colorName, plugPositions[i]);
-            plug.Outlet = InstantiateConnector(WireConnector.Type.Outlet, colorName, outletPositions[i]);
-            plug.Wire = InstantiateWire(colorName, color, plug);
+            var outlet = shuffledOutlets[i];
+            outlet.Build(colorName);
+
+            var plug = shuffledPlugs[i];
+            plug.Build(colorName);            
+            plug.Outlet = outlet;            
+            plug.Wire = InstantiateWire(colorName, color, shuffledPlugs[i]);
+
+            // Has to be last as it require the plug to be built and know the outlet and wire
             plug.IsPlugged = true;
-
-            plugs.Add(plug);
         }
 
-        // Randomly choose ones to marked as unplugged
-        var shuffledPlugs = Utility.ShuffleArray(plugs.ToArray(), RandomNumbers.Seed);
+        // Re-shuffle plugs to randomly choose ones to marked as unplugged
+        shuffledPlugs = Utility.ShuffleArray(shuffledPlugs, RandomNumbers.Seed);
         for (int i = 0; i < totalUnplugged; i++)
             shuffledPlugs[i].IsPlugged = false;
-    }
-
-    private void InitializeConnectorGO()
-    {
-        if (connectorsParent == null)
-        {
-            connectorsParent = new GameObject($"{name}_Parent_GO");
-            connectorsParent.transform.SetParent(transform);
-        }
-
-        for (int i = 0; i < connectorsParent.transform.childCount; i++)
-        {
-            var child = connectorsParent.transform.GetChild(i);
-            Destroy(child.gameObject);
-        }
-    }
-
-    private WireConnector InstantiateConnector(WireConnector.Type type, ColorName colorName, Transform xFrom)
-    {
-        var connector = Instantiate(connectorPrefab, connectorsParent.transform);
-        connector.name = $"{type}_{colorName}";
-        connector.transform.position = xFrom.position;
-        // connector.transform.rotation = xFrom.rotation;
-
-        connector.Build(type, colorName);
-        return connector;
     }
 
     private ConnectorWire InstantiateWire(ColorName colorName, Color color, WireConnector plug)

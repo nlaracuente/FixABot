@@ -12,24 +12,17 @@ public class WireConnector : MonoBehaviour
     }
 
     [SerializeField]
-    GameObject plugGO;
-
-    [SerializeField]
-    GameObject outletGO;
-
-    [SerializeField, Tooltip("Positions to use when plug is connected. Should be in the order to connect to")]
-    Transform[] plugWirePositions;
-    public Transform[] PlugWirePositions { get { return plugWirePositions; } }
-
-    [SerializeField, Tooltip("Positions to use when outlet is connected. Should be in the order to connect to")]
-    Transform[] outletWirePositions;
-    public Transform[] OutletWirePositions { get { return outletWirePositions; } }
-
-    public Type ConnectorType { get; private set; }
+    Type type;
+    public Type ConnectorType { get { return type; } }
     public ColorName ColorName { get; private set; }
 
+    [SerializeField, Tooltip("Positions to use when plug is connected. Should be in the order to connect to")]
+    Transform[] wirePositions;
+    public Transform[] WirePositions { get { return wirePositions; } }
+           
+
     /// <summary>
-    /// Outlet to plug into if this is a plug
+    /// If this is a plug, then this is the outlet it connects toi
     /// </summary>
     WireConnector outlet;
     public WireConnector Outlet
@@ -77,18 +70,12 @@ public class WireConnector : MonoBehaviour
             return;
     }
 
-    public void Build(Type type, ColorName colorName)
+    public void Build(ColorName colorName)
     {
-        propBlock = new MaterialPropertyBlock();
-
-        ConnectorType = type;
         ColorName = colorName;
-        plugGO.SetActive(type == Type.Plug);
-        outletGO.SetActive(type == Type.Outlet);
+        propBlock = new MaterialPropertyBlock();        
 
-        var connector = plugGO.activeSelf ? plugGO : outletGO;
-        var renderer = connector.GetComponent<Renderer>();
-
+        var renderer = GetComponent<Renderer>();
         renderer.GetPropertyBlock(propBlock);
         var color = GameManager.instance.ColorNameMapping[colorName];
 
@@ -101,11 +88,23 @@ public class WireConnector : MonoBehaviour
     /// </summary>
     public void FollowMouse()
     {
-        var startPosition = plugWirePositions[0];
-        var endPos = GameManager.instance.MainCamera.ScreenToWorldPoint(Input.mousePosition);
-        endPos.z = startPosition.position.z;
+        var endPos = transform.position;
 
-        var pos = new List<Vector3>(plugWirePositions.Select(p => p.position));
+        var camera = GameManager.instance.MainCamera;
+        if(camera.orthographic)
+            endPos = GameManager.instance.MainCamera.ScreenToWorldPoint(Input.mousePosition);
+        else
+        {
+            Plane plan = new Plane(Vector3.right, 0);
+            float distance;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (plan.Raycast(ray, out distance))
+                endPos = ray.GetPoint(distance);
+        }
+
+        endPos.z = transform.position.z;
+
+        var pos = new List<Vector3>(wirePositions.Select(p => p.position));
         pos.Add(endPos);
         Wire.SetPositions(pos.ToArray());
     }
@@ -115,7 +114,13 @@ public class WireConnector : MonoBehaviour
     /// </summary>
     void PlugIn()
     {
-        var positions = PlugWirePositions.Union(Outlet.PlugWirePositions).ToArray();
+        if (Outlet == null || Wire == null)
+            return;
+
+        var pPos = WirePositions;
+        var oPos = Outlet.WirePositions;
+
+        var positions = WirePositions.Union(Outlet.WirePositions).ToArray();
         Wire.SetPositions(positions.Select(p => p.position).ToArray());
     }
 

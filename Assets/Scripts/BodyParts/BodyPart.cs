@@ -14,7 +14,7 @@ public abstract class BodyPart : MonoBehaviour, IPointerEnterHandler, IPointerEx
     /// If a puzzle exist then it was marked as broken
     /// It remains broken until the puzzle is solved
     /// </summary>
-    public bool IsBroken { get { return puzzle != null && !puzzle.IsSolved; } }
+    public bool IsFixed { get { return puzzle == null || puzzle.IsSolved; } }
 
     /// <summary>
     /// Triggers this body part to break
@@ -30,20 +30,9 @@ public abstract class BodyPart : MonoBehaviour, IPointerEnterHandler, IPointerEx
         // Choose random puzzle for this part
         var randPuzzle = puzzles[RandomNumbers.instance.Between(0, puzzles.Count)];
 
+        // TODO: allow the puzzles to auto fix the body part based on its rotation/position
         var go = Instantiate(randPuzzle, transform);
-        go.transform.position = transform.position;
-        go.transform.rotation = transform.rotation;
-
         puzzle = go.GetComponent<Puzzle>();
-    }
-
-    /// <summary>
-    /// Runs the sequence to see if the body part is broken
-    /// </summary>
-    public virtual void TestPart()
-    {
-        var status = IsBroken ? "is broken" : "is not broken";
-        Debug.Log($"{name}: {status}");
     }
 
     public virtual void OnPointerClick(PointerEventData eventData) { }

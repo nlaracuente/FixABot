@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Robot : MonoBehaviour
 {
     [SerializeField, Tooltip("Body parts that can be broken")]
     BodyPart[] breakableParts;
+
+    /// <summary>
+    /// All breakable parts are not broken
+    /// </summary>
+    public bool IsRepaired { get { return breakableParts.Where(b => !b.IsFixed).FirstOrDefault() == null; } }
 
     public void Initialize(int totalBrokenParts)
     {

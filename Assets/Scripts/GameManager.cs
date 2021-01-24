@@ -18,6 +18,9 @@ public class GameManager : Singleton<GameManager>
     GameObject repairMenu;
 
     [SerializeField]
+    RobotRepairResults repairResults;
+
+    [SerializeField]
     GameObject resultsMenu;
 
     int currentDay = 1;
@@ -36,6 +39,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     Robot robotPrefab;
     Robot currentRobot;
+
+    int totalRepairedRobots = 0;
+    int totalRobotsSpawned = 0;
 
     [SerializeField]
     RobotStand robotStand;
@@ -68,6 +74,9 @@ public class GameManager : Singleton<GameManager>
         if(robotStand == null)
             robotStand = FindObjectOfType<RobotStand>();
 
+        if (repairResults == null)
+            repairResults = FindObjectOfType<RobotRepairResults>();
+
         BuildColorNameMapping();
         ResetMenus();
     }
@@ -91,6 +100,7 @@ public class GameManager : Singleton<GameManager>
         howToPlayMenu?.SetActive(false);
         weekMenuController?.gameObject.SetActive(false);
         repairMenu?.SetActive(false);
+        repairResults?.gameObject.SetActive(false);
         resultsMenu?.SetActive(false);
     }
 
@@ -128,12 +138,15 @@ public class GameManager : Singleton<GameManager>
     {
         weekMenuController.gameObject.SetActive(true);
 
+        totalRepairedRobots = 0;
+        totalRobotsSpawned = 0;
+        weekMenuController.SetRepairedText(totalRepairedRobots, totalRobotsSpawned);
+
         currentDay = 1;
         while (currentDay <= totalDays)
         {
             weekMenuController.SetDayText(currentDay, totalDays);
             yield return StartCoroutine(DayRoutine());
-            // Report Day's earnings
             currentDay++;
         }
         weekMenuController.gameObject.SetActive(false);
@@ -145,6 +158,8 @@ public class GameManager : Singleton<GameManager>
         // Trigger RepairRoutine for each robot
         var totalRobots = currentDay;
         var curRobot = 1;
+
+        totalRobotsSpawned += totalRobots;
 
         var limits = minMaxBrokenPartsPerDay[currentDay];
         while (curRobot <= totalRobots)
@@ -160,9 +175,7 @@ public class GameManager : Singleton<GameManager>
             currentRobot.name = $"Robot_{currentDay}_{curRobot}";
             currentRobot.Initialize(totalBrokenParts);            
 
-            yield return StartCoroutine(RepairRoutine());
-            
-            // Validate repair job
+            yield return StartCoroutine(RepairRoutine());            
             curRobot++;
         }
     }
@@ -176,7 +189,20 @@ public class GameManager : Singleton<GameManager>
         while (!repaired)
             yield return null;
 
-        // Destroy for now
+        repairMenu.SetActive(false);
+
+        // Validate Repair Job
+        if (currentRobot.IsRepaired)
+            totalRepairedRobots += 1;
+
+        // Update results
+        weekMenuController.SetRepairedText(totalRepairedRobots, totalRobotsSpawned);
+
+        repairResults.gameObject.SetActive(true);
+        repairResults.SetResults(currentRobot.IsRepaired);
+        yield return new WaitForSeconds(.75f);
+        repairResults.gameObject.SetActive(false);
+
         DestroyImmediate(currentRobot.gameObject);
         yield return new WaitForEndOfFrame();
 

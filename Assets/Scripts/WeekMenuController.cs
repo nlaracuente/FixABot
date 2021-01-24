@@ -11,6 +11,9 @@ public class WeekMenuController : MonoBehaviour
     [SerializeField]
     Text robotText;
 
+    [SerializeField]
+    Text repairedText;
+
     public void SetDayText(int current, int total) 
     {
         dayText.text = $"Day: {current} / {total}";
@@ -19,5 +22,10 @@ public class WeekMenuController : MonoBehaviour
     public void SetRobotText(int current, int total)
     {
         robotText.text = $"Robot: {current} / {total}";
+    }
+
+    public void SetRepairedText(int current, int total)
+    {
+        repairedText.text = $"Reapired: {current} / {total}";
     }
 }
