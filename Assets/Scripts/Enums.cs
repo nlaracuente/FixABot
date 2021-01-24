@@ -1,7 +1,7 @@
 ﻿public enum ColorName
 {
     Red,
-    Gree,
+    Green,
     Yellow,
     Blue,
 }

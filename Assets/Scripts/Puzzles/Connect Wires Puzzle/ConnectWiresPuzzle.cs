@@ -10,36 +10,50 @@ public class ConnectWiresPuzzle : Puzzle
     WireConnector connectorPrefab;
 
     [SerializeField]
+    ConnectorWire wirePrefab;
+
+    [SerializeField]
     Transform[] plugsXForms;
 
     [SerializeField]
-    Transform[] outletsXForms;   
+    Transform[] outletsXForms;
+
+    GameObject connectorsParent;
 
     /// <summary>
     /// All the plugs available in the puzzle
     /// </summary>
     List<WireConnector> plugs = new List<WireConnector>();
 
+    /// <summary>
+    /// Plug currently selected to connect to an outlet
+    /// </summary>
+    WireConnector selectedPlug;
+
+    /// <summary>
+    /// All plugs are connected
+    /// </summary>
+    public override bool IsSolved { get { return plugs.Where(p => !p.IsPlugged).FirstOrDefault() == null; } }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
             BuildPuzzle();
+
+        if (Input.GetKeyDown(KeyCode.S))
+            Debug.Log($"Is {name} solved? {IsSolved}");
     }
 
-    public override void BuildPuzzle()
+    private void LateUpdate()
     {
-        // Clear any already spawned
-        // Mainly for testing purposes 
-        foreach (var plug in plugs)
-        {
-            if(plug.Outlet != null)
-                Destroy(plug.Outlet.gameObject);
+        if (selectedPlug == null)
+            return;
 
-            if(plug.gameObject != null)
-                Destroy(plug.gameObject);
-        }
-        plugs.Clear();
+        selectedPlug.FollowMouse();
+    }
 
+    public override void BuildPuzzle() 
+    {
         if (outletsXForms == null || plugsXForms.Length < 1)
         {
             Debug.Log($"{name}: Plugs have not been assigned");
@@ -52,11 +66,14 @@ public class ConnectWiresPuzzle : Puzzle
             return;
         }
 
-        if(outletsXForms.Length != outletsXForms.Length)
+        if (outletsXForms.Length != outletsXForms.Length)
         {
             Debug.Log($"{name}: Plug and Outlet count does not match");
             return;
         }
+
+        InitializeConnectorGO();
+        plugs.Clear();
 
         // Decide how many will be unplugged - minum is 1
         var maxPlugs = plugsXForms.Length;
@@ -69,6 +86,7 @@ public class ConnectWiresPuzzle : Puzzle
 
         // Create all the plugs and outlets positioning them at random starting positions
         // And assigning the destination outlet to the plugs so that it knows how to auto-connect
+        // All are defaulted as connected
         var plugPositions = Utility.ShuffleArray(plugsXForms.Select(p => p.transform).ToArray(), RandomNumbers.Seed);
         var outletPositions = Utility.ShuffleArray(outletsXForms.Select(o => o.transform).ToArray(), RandomNumbers.Seed);
         for (int i = 0; i < plugColors.Count(); i++)
@@ -79,6 +97,9 @@ public class ConnectWiresPuzzle : Puzzle
 
             var plug = InstantiateConnector(WireConnector.Type.Plug, colorName, plugPositions[i]);
             plug.Outlet = InstantiateConnector(WireConnector.Type.Outlet, colorName, outletPositions[i]);
+            plug.Wire = InstantiateWire(colorName, color, plug);
+            plug.IsPlugged = true;
+
             plugs.Add(plug);
         }
 
@@ -88,29 +109,88 @@ public class ConnectWiresPuzzle : Puzzle
             shuffledPlugs[i].IsPlugged = false;
     }
 
+    private void InitializeConnectorGO()
+    {
+        if (connectorsParent == null)
+        {
+            connectorsParent = new GameObject($"{name}_Parent_GO");
+            connectorsParent.transform.SetParent(transform);
+        }
+
+        for (int i = 0; i < connectorsParent.transform.childCount; i++)
+        {
+            var child = connectorsParent.transform.GetChild(i);
+            Destroy(child.gameObject);
+        }
+    }
+
     private WireConnector InstantiateConnector(WireConnector.Type type, ColorName colorName, Transform xFrom)
     {
-        var connector = Instantiate(connectorPrefab, transform);
+        var connector = Instantiate(connectorPrefab, connectorsParent.transform);
         connector.name = $"{type}_{colorName}";
         connector.transform.position = xFrom.position;
-        connector.transform.rotation = xFrom.rotation;
+        // connector.transform.rotation = xFrom.rotation;
 
         connector.Build(type, colorName);
         return connector;
     }
 
+    private ConnectorWire InstantiateWire(ColorName colorName, Color color, WireConnector plug)
+    {
+        var wire = Instantiate(wirePrefab, plug.transform);
+        wire.name = $"{colorName}_Wire";
+        wire.SetColor(color);
+        return wire;
+    }
+
     public override void OnPointerClick(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        // TODO: avoid getting it from the parent as it might change...
+        var connector = eventData.pointerEnter.GetComponentInParent<WireConnector>();
+
+        // Ignore plugged in ones
+        if (connector == null || connector.IsPlugged)
+            return;
+        
+        // A plug must always be selected first
+        if(selectedPlug == null)
+        {
+            if(connector.ConnectorType == WireConnector.Type.Plug)
+                selectedPlug = connector;
+            return;
+        }
+
+        // Switching plugs
+        if(connector.ConnectorType == WireConnector.Type.Plug)
+        {
+            selectedPlug.Disconnect();
+            selectedPlug = connector;
+            return;
+        }
+
+        // Wrong outlet - reset
+        if (connector.ConnectorType == WireConnector.Type.Outlet && selectedPlug.ColorName != connector.ColorName)
+        {
+            selectedPlug.IsPlugged = false;
+            selectedPlug = null;
+            return;
+        }
+
+        // Correctly plugged
+        if (connector.ConnectorType == WireConnector.Type.Outlet && selectedPlug.ColorName == connector.ColorName)
+        {
+            selectedPlug.IsPlugged = true;
+            selectedPlug = null;
+        }
     }
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        // Debug.Log($"Pointer Drag: {eventData.pointerDrag}, Pointer Enter: {eventData.pointerEnter}");
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        // Debug.Log($"Pointer Enter: {eventData.pointerEnter}");
     }
 }

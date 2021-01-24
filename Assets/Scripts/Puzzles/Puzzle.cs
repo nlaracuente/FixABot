@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 /// </summary>
 public abstract class Puzzle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public bool IsSolved { get; protected set; }
+    public virtual bool IsSolved { get; }
 
     private void Start()
     {

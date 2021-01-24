@@ -37,6 +37,9 @@ public class GameManager : Singleton<GameManager>
     Robot robotPrefab;
     Robot currentRobot;
 
+    [SerializeField]
+    RobotStand robotStand;
+
     [System.Serializable]
     public struct PuzzleConfig
     {
@@ -56,10 +59,15 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public Camera MainCamera { get { return Camera.main; } }
+
     bool repaired;
 
     private void Start()
     {
+        if(robotStand == null)
+            robotStand = FindObjectOfType<RobotStand>();
+
         BuildColorNameMapping();
         ResetMenus();
     }
@@ -148,7 +156,7 @@ public class GameManager : Singleton<GameManager>
             // Configure to allow no more than totalBrokenParts
             // Play Animation to show the new robot
             // Wait for animation to finish playing
-            currentRobot = Instantiate(robotPrefab).GetComponent<Robot>();
+            currentRobot = Instantiate(robotPrefab, robotStand.transform).GetComponent<Robot>();
             currentRobot.name = $"Robot_{currentDay}_{curRobot}";
             currentRobot.Initialize(totalBrokenParts);            
 

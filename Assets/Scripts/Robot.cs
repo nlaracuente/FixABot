@@ -9,8 +9,6 @@ public class Robot : MonoBehaviour
 
     public void Initialize(int totalBrokenParts)
     {
-        Debug.Log($"{name}: total broken parts: {totalBrokenParts}");
-
         if(breakableParts == null || breakableParts.Length < 1)
         {
             Debug.Log($"{name}: has no assigned breakable body parts");

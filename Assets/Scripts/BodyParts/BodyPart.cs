@@ -27,9 +27,14 @@ public abstract class BodyPart : MonoBehaviour, IPointerEnterHandler, IPointerEx
             return;
         }
         
-        // TODO: Make this more random
-        puzzle = puzzles[Random.Range(0, puzzles.Count)];
-        Debug.Log($"{name}: marked as broken. Puzzle: {puzzle}");
+        // Choose random puzzle for this part
+        var randPuzzle = puzzles[RandomNumbers.instance.Between(0, puzzles.Count)];
+
+        var go = Instantiate(randPuzzle, transform);
+        go.transform.position = transform.position;
+        go.transform.rotation = transform.rotation;
+
+        puzzle = go.GetComponent<Puzzle>();
     }
 
     /// <summary>
