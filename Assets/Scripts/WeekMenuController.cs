@@ -16,7 +16,7 @@ public class WeekMenuController : MonoBehaviour
 
     public void SetDayText(int current, int total) 
     {
-        dayText.text = $"Day: {current} / {total}";
+        //dayText.text = $"Day: {current} / {total}";
     }
 
     public void SetRobotText(int current, int total)

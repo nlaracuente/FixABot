@@ -21,10 +21,15 @@ public class GameManager : Singleton<GameManager>
     RobotRepairResults repairResults;
 
     [SerializeField]
-    GameObject resultsMenu;
+    ResultsMenu resultsMenu;
 
     int currentDay = 1;
-    [SerializeField] int totalDays = 3;
+    [SerializeField] int totalDays = 1;
+
+    /// <summary>
+    /// Total robots to repair
+    /// </summary>
+    [SerializeField] int totalRobotsToRepair = 3;
 
     [System.Serializable]
     struct MinMax
@@ -101,7 +106,7 @@ public class GameManager : Singleton<GameManager>
         weekMenuController?.gameObject.SetActive(false);
         repairMenu?.SetActive(false);
         repairResults?.gameObject.SetActive(false);
-        resultsMenu?.SetActive(false);
+        resultsMenu?.gameObject.SetActive(false);
     }
 
     public void StartGame()
@@ -123,7 +128,8 @@ public class GameManager : Singleton<GameManager>
         titleMenu.SetActive(false);
         yield return StartCoroutine(HowToPlayRoutine());
         yield return StartCoroutine(WeekRoutine());
-        resultsMenu.SetActive(true);
+        resultsMenu.gameObject.SetActive(true);
+        resultsMenu.SetResults(totalRepairedRobots, totalRobotsSpawned);
     }
 
     public void HowToPlayMenuClosed() => howToPlayMenu.SetActive(false);
@@ -139,8 +145,7 @@ public class GameManager : Singleton<GameManager>
         weekMenuController.gameObject.SetActive(true);
 
         totalRepairedRobots = 0;
-        totalRobotsSpawned = 0;
-        weekMenuController.SetRepairedText(totalRepairedRobots, totalRobotsSpawned);
+        totalRobotsSpawned = 0;       
 
         currentDay = 1;
         while (currentDay <= totalDays)
@@ -156,10 +161,11 @@ public class GameManager : Singleton<GameManager>
     {
         // Build the robots to repair for the day
         // Trigger RepairRoutine for each robot
-        var totalRobots = currentDay;
+        var totalRobots = totalRobotsToRepair;
         var curRobot = 1;
 
         totalRobotsSpawned += totalRobots;
+        weekMenuController.SetRepairedText(totalRepairedRobots, totalRobotsSpawned);
 
         var limits = minMaxBrokenPartsPerDay[currentDay];
         while (curRobot <= totalRobots)

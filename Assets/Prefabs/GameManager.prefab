@@ -48,8 +48,10 @@ MonoBehaviour:
   howToPlayMenu: {fileID: 0}
   weekMenuController: {fileID: 0}
   repairMenu: {fileID: 0}
+  repairResults: {fileID: 0}
   resultsMenu: {fileID: 0}
-  totalDays: 3
+  totalDays: 1
+  totalRobotsToRepair: 3
   minMaxBrokenPartsPerDay:
   - min: 0
     max: 0
@@ -61,6 +63,7 @@ MonoBehaviour:
     max: 4
   robotPrefab: {fileID: 885393268390995183, guid: c0197209f7ac16447bf8d479e13b43d3,
     type: 3}
+  robotStand: {fileID: 0}
   puzzleConfigs:
   - colorName: 0
     color: {r: 0.8018868, g: 0.25342646, b: 0.25342646, a: 1}
