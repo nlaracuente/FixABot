@@ -86,6 +86,13 @@ public class GameManager : Singleton<GameManager>
         ResetMenus();
     }
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+    }
+
     private void BuildColorNameMapping()
     {
         colorNameMapping = new Dictionary<ColorName, Color>();
@@ -121,6 +128,9 @@ public class GameManager : Singleton<GameManager>
         ResetMenus();
         StartCoroutine(GameRoutine());
     }
+
+
+   
     
     /// <summary>
     /// Initializes game
@@ -191,7 +201,11 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void Repaired() => repaired = true;
+    public void Repaired()
+    {
+        repaired = true;
+        AudioManager.instance.ArrowClicked();
+    }
     IEnumerator RepairRoutine()
     {
         // Wait until the player clicks on "repaired"

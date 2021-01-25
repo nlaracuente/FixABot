@@ -10,6 +10,6 @@ public class RobotRepairResults : MonoBehaviour
 
     public void SetResults(bool isFixed)
     {
-        results.text = isFixed? "Fully Fixed! :)": "Still Broken :(";
+        results.text = isFixed? "Repaired!": "Not Repaired :(";
     }
 }

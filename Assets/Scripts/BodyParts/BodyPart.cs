@@ -26,9 +26,10 @@ public abstract class BodyPart : MonoBehaviour, IPointerEnterHandler, IPointerEx
             Debug.LogError($"{name} has not been given a list of puzzles. Cannot break it");
             return;
         }
-        
-        // Choose random puzzle for this part
-        var randPuzzle = puzzles[RandomNumbers.instance.Between(0, puzzles.Count)];
+
+        // Shuffle the puzzles to randomize them
+        puzzles = new List<Puzzle>(Utility.ShuffleArray(puzzles.ToArray(), RandomNumbers.Seed));        
+        var randPuzzle = puzzles[0];
 
         // TODO: allow the puzzles to auto fix the body part based on its rotation/position
         var go = Instantiate(randPuzzle, transform);
