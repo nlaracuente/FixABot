@@ -35,7 +35,12 @@ public class BodyPartCover : MonoBehaviour, IPointerClickHandler
             return;
 
         if (isFixing && bodyPart.IsFixed)
+        {
+            isFixing = false;
+            AudioManager.instance.PuzzleSolved();
             UpdateCovers();
+        }
+            
     }
 
     void UpdateCovers()
@@ -60,5 +65,7 @@ public class BodyPartCover : MonoBehaviour, IPointerClickHandler
         collider.enabled = false;
         brokenCover?.SetActive(false);
         bodyPart.ShowPuzzle();
+
+        AudioManager.instance.CoverRemoved();
     }
 }

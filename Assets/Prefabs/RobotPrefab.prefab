@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &909983844229259090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6842198470151882408}
+  - component: {fileID: 6593057504727851372}
+  m_Layer: 9
+  m_Name: TriggerBlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6842198470151882408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909983844229259090}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.346, z: 0}
+  m_LocalScale: {x: 3.37, y: 3.4, z: 1.93}
+  m_Children: []
+  m_Father: {fileID: 5530334318130607207}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6593057504727851372
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909983844229259090}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2443346744889213713
 GameObject:
   m_ObjectHideFlags: 0
@@ -37,6 +81,7 @@ Transform:
   - {fileID: 5157676746003999615}
   - {fileID: 4471898743534591038}
   - {fileID: 4903392638782671974}
+  - {fileID: 6842198470151882408}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1033,17 +1078,23 @@ PrefabInstance:
     - target: {fileID: 8977010737683309967, guid: d8897675027d288469233044cf55094b,
         type: 3}
       propertyPath: puzzles.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8977010737683309967, guid: d8897675027d288469233044cf55094b,
         type: 3}
       propertyPath: puzzles.Array.data[0]
       value: 
-      objectReference: {fileID: 2021793873809958512, guid: 13db7bd5f492a1e4baa9e6928e39b80a,
+      objectReference: {fileID: 7044211583711376818, guid: f2fa5daa8448cd54791d70494d9bb74c,
         type: 3}
     - target: {fileID: 8977010737683309967, guid: d8897675027d288469233044cf55094b,
         type: 3}
       propertyPath: puzzles.Array.data[1]
+      value: 
+      objectReference: {fileID: 5994344843293059079, guid: 07b4e20787761044d84a6a038de9b585,
+        type: 3}
+    - target: {fileID: 8977010737683309967, guid: d8897675027d288469233044cf55094b,
+        type: 3}
+      propertyPath: puzzles.Array.data[2]
       value: 
       objectReference: {fileID: 5994344843293059079, guid: 07b4e20787761044d84a6a038de9b585,
         type: 3}
