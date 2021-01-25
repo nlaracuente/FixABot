@@ -27,11 +27,13 @@ public abstract class Puzzle : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void HidePuzzle()
     {
+        AudioManager.instance.PuzzleSolved();
         gameObject.SetActive(false);
     }
 
     public void ShowPuzzle()
     {
+        AudioManager.instance.CoverRemoved();
         gameObject.SetActive(true);
     }
 

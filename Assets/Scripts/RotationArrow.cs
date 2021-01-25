@@ -16,6 +16,7 @@ public class RotationArrow : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        AudioManager.instance.ArrowClicked();
         robotStand.Rotate(direction);
     }
 }

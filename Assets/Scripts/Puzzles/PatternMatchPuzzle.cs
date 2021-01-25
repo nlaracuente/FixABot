@@ -86,6 +86,8 @@ public class PatternMatchPuzzle : Puzzle
         if (renderer == null)
             Debug.Log($"{eventData.pointerEnter} does not have a renderer");
 
+        AudioManager.instance.ButtonClicked();
+
         // First time clicking on this button
         if (!colorIndexes.ContainsKey(renderer))
             colorIndexes.Add(renderer, -1);            
