@@ -1,4 +1,4 @@
-[alt text][screenshot]
+![alt text](https://img.itch.zone/aW1hZ2UvODkwOTU3LzUwNDY2MTAuanBn/original/tTjj7h.jpg)
 
 # Coding Blocks 2021 Game Jam
 My entry for the Coding Blocks 2021 Game Jam. \
@@ -18,6 +18,3 @@ Every time a new robot head appears it's broken parts are randomize as well as t
 - Unity
 - MagicaVoxel
 - Audacity
-
-[screenshot]: https://img.itch.zone/aW1hZ2UvODkwOTU3LzUwNDY2MTAuanBn/original/tTjj7h.jpg "Fix A Bot"
-
